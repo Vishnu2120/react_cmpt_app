@@ -1,5 +1,5 @@
 import { Button } from "react-bootstrap";
-import React, { useEffect,useState } from "react";
+import React, { useEffect,useReducer,useState } from "react";
 import { useParams } from "react-router-dom";
 import { v4 } from "uuid";
 import { getInvoices,setInvoices } from "../data";
@@ -16,32 +16,34 @@ function Expenses() {
   let {invoiceId} = useParams();
   console.log('params-->',invoiceId)
   let invoice;
-  if(invoiceId){
-    let invoices = JSON.parse( getInvoices());
+  if(invoiceId !==':invoiceId'){
+    dispatch({type:'GET_INVOICES'})
+    let invoices = reducerInvoice;
     invoice = invoices.find(inv=> inv.number === invoiceId)
   }
   useEffect(()=>{
     setAddress(invoice?.address);
     setName(invoice?.name);
     setWeb(invoice?.website);
-  },[])
+  },[invoice])
 
   const onOnclickHandler=()=>{
-    console.log("nubetset  ===>> ", invoiceId);
-    console.log('typeof invoiceId',typeof(invoiceId))
+    // console.log("nubetset  ===>> ", invoiceId);
+    // console.log('typeof invoiceId',typeof(invoiceId))
 
       if(invoiceId !==':invoiceId'){ //edit
        
-        let state = {
+        let Istate = {
           name : nameInput,
           address : addrInput,
           website: webaddrInput,
           number:invoiceId
         }
-        setInvoices(state)
+        // setInvoices(state)
+        dispatch({type:'SET_INVOICES',payload:Istate})
       }
       else{ //add
-        let state = {
+        let Istate = {
           name : nameInput,
           address : addrInput,
           website: webaddrInput,
@@ -63,6 +65,7 @@ function Expenses() {
            <div className="dummy"></div>
            <div><label className="label-json"></label><Link to='/invoices'><Button onClick={()=>onOnclickHandler()}>Submit</Button></Link></div>
          </div>
+
       </main>
     );
   }
