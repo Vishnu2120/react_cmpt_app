@@ -8,7 +8,8 @@ function App() {
       <Link to="/invoices">List</Link> | {""}
       <Link to="/expenses/:invoiceId">Add </Link> | {""}
       <Link to="/reducerapi">ReducerApi </Link> | {""}
-      <Link to="/reduxapi">Redux</Link>
+      <Link to="/reduxapi">Redux</Link>| {""}
+      <Link to="/lazyloading">Lazy Loading</Link>
      </nav>
      
      <Outlet/>
